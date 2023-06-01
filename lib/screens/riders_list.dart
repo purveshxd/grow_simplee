@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grow_simplee/repos/rider_model.dart';
+import 'package:grow_simplee/repos/rider_providers.dart';
 import 'package:grow_simplee/widgets/custom_button.dart';
 import 'package:grow_simplee/widgets/rider_list_tile.dart';
 
-class RiderLists extends StatelessWidget {
+class RiderLists extends ConsumerWidget {
   const RiderLists({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<Rider> riders = ref.watch(riderProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Riders'),
+        title: TextButton(
+          child: const Text('Riders'),
+          onPressed: () {
+            debugPrint(riders.elementAt(1).uuid.toString());
+          },
+        ),
       ),
       body: ListView.builder(
-        itemCount: 7,
-        itemBuilder: (context, index) => const RiderListTile(),
+        itemCount: riders.length,
+        itemBuilder: (context, index) =>
+            RiderListTile(rider: riders.elementAt(index)),
       ),
-      bottomNavigationBar:  Padding(
+      bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,

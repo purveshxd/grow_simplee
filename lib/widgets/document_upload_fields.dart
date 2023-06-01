@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class DocumentUploadField extends StatelessWidget {
   final String label;
-  const DocumentUploadField({super.key, required this.label});
+  final  void Function()? onPressedView;
+  final  void Function()? onPressedAdd;
+  const DocumentUploadField({super.key, required this.label, this.onPressedView, this.onPressedAdd});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,8 @@ class DocumentUploadField extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  TextButton(onPressed: () {}, child: const Text("View")),
-                  TextButton(onPressed: () {}, child: const Text("Add")),
+                  TextButton(onPressed: onPressedView, child: const Text("View")),
+                  TextButton(onPressed: onPressedAdd, child: const Text("Add")),
                 ],
               )
             ],

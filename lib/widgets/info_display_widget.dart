@@ -1,15 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class InfoDisplay extends StatelessWidget {
   final String label;
+  final String info;
   const InfoDisplay({
     Key? key,
     required this.label,
+    required this.info,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // debugPrint(info.runtimeType as String?);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
@@ -17,7 +19,11 @@ class InfoDisplay extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: Row(
-            children: [Text("$label : "), const Text("Aman Gupta")],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("$label : "),
+              Expanded(child: Text(info is List ? "List" : info.toString()))
+            ],
           )),
     );
   }

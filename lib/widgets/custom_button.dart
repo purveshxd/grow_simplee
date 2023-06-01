@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String label;
+  // ignore: prefer_typing_uninitialized_variables
   final color;
   final void Function()? navigateTo;
   const CustomButton(

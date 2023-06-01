@@ -15,6 +15,15 @@ class Constants {
     "IFSC Number",
   ];
 
+  List<String> docsName = [
+    'aadharPath',
+    'bankCheque',
+    'dl',
+    'panCardPath',
+    'photo'
+  ];
+  List<String> docslabel = ['Aadhar', 'Bank Cheque', 'DL', 'Pan Card', 'Photo'];
+
   Map<String, Widget Function(BuildContext)> routes = {
     '/': (context) => const RiderLists(),
     '/addRider': (context) => const AddRiders(),

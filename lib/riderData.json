@@ -1,0 +1,17 @@
+{
+    "name":"Aman Gupta",
+    "phoneNumber": 9146477923,
+    "localities":["lokmanya nagar","Sadar","Nagpur"],
+    "address":"zrhsdgnsfgndsfabbdisfksf  lsfbnlzb",
+    "pinCode":440010,
+    "bankAccountNumber":4643138431346464,
+    "ifsc":"zdhndgnxdnzdzh",
+    "riderDocs":{
+        "aadharPath":"",
+        "panCardPath":"",
+        "dl":"",
+        "bankCheque":"",
+        "photo":""
+    }
+
+}

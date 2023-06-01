@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grow_simplee/repos/rider_model.dart';
 import 'package:grow_simplee/widgets/custom_button.dart';
 import 'package:grow_simplee/widgets/info_display_widget.dart';
 
-class RiderProfile extends StatelessWidget {
-  const RiderProfile({super.key});
+class RiderProfile extends ConsumerWidget {
+  const RiderProfile({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Rider args = ModalRoute.of(context)!.settings.arguments as Rider;
     return Scaffold(
       appBar: AppBar(title: const Text("Rider Profile")),
       body: ListView(
@@ -22,14 +29,22 @@ class RiderProfile extends StatelessWidget {
                       color: Colors.blue.shade100,
                     ),
                     width: double.infinity,
-                    child: Center(child: Text(index.toString())),
+                    child: Center(
+                        child: Image.file(
+                            File(args.riderDocs!.aadharPath.toString()))),
                   ),
               options: CarouselOptions(
                   viewportFraction: 1, enableInfiniteScroll: false)),
-          const InfoDisplay(label: 'Name'),
-          const InfoDisplay(label: 'Phone Number'),
-          const InfoDisplay(label: 'Address'),
-          const InfoDisplay(label: 'Localities'),
+          InfoDisplay(label: 'Name', info: args.name.toString()),
+          InfoDisplay(
+            label: 'Phone Number',
+            info: args.phoneNumber.toString(),
+          ),
+          InfoDisplay(
+            label: 'Address',
+            info: args.address.toString(),
+          ),
+          InfoDisplay(label: 'Localities', info: args.localities.toString()),
         ],
       ),
       bottomNavigationBar: Padding(
