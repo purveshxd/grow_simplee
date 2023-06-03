@@ -49,10 +49,27 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
   void addRiderDocs(String uuid, RiderDocs riderDocs) {
     state = [
       for (final rider in state)
-        if (rider.uuid == uuid) rider.copyWith(riderDocs: riderDocs)
+        if (rider.uuid == uuid)
+          rider.copyWith(
+              riderDocs: RiderDocs(
+                  aadharPath: riderDocs.aadharPath,
+                  bankCheque: riderDocs.bankCheque,
+                  dl: riderDocs.dl,
+                  panCardPath: riderDocs.panCardPath,
+                  photo: riderDocs.photo))
     ];
   }
 }
 
 final riderProvider =
     StateNotifierProvider<RiderNotifier, List<Rider>>((ref) => RiderNotifier());
+final isDocAddedProvider = StateProvider((ref) {
+  List isAdded = [
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  return isAdded;
+});

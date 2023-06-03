@@ -5,7 +5,6 @@
 import 'dart:convert';
 
 import 'package:hive/hive.dart';
-import 'package:uuid/uuid.dart';
 part 'rider_model.g.dart';
 
 Rider riderFromJson(String str) => Rider.fromJson(json.decode(str));

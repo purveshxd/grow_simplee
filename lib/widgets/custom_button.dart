@@ -19,7 +19,9 @@ class CustomButton extends StatelessWidget {
     return MaterialButton(
       minWidth: width / 100 * 45,
       height: 50,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       color: color ?? Colors.blue.shade100,
       onPressed: navigateTo,
       child: Text(label),

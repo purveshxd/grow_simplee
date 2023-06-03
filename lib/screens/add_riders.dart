@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grow_simplee/repos/rider_api.dart';
 import 'package:grow_simplee/repos/rider_model.dart';
-import 'package:grow_simplee/repos/rider_providers.dart';
 import 'package:grow_simplee/widgets/custom_button.dart';
 import 'package:grow_simplee/widgets/custom_text_fields.dart';
 import 'package:uuid/uuid.dart';
 
-class AddRiders extends ConsumerWidget {
+class AddRiders extends StatelessWidget {
   const AddRiders({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
     TextEditingController phoneNoController = TextEditingController();
     TextEditingController localitiesController = TextEditingController();
@@ -19,6 +16,7 @@ class AddRiders extends ConsumerWidget {
     TextEditingController pincodeController = TextEditingController();
     TextEditingController bankAccController = TextEditingController();
     TextEditingController ifscController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add New Rider"),
@@ -26,17 +24,36 @@ class AddRiders extends ConsumerWidget {
       ),
       body: ListView(
         children: [
-          CustomTextField(label: "Name", controller: nameController),
-          CustomTextField(label: "Phone Number", controller: phoneNoController),
           CustomTextField(
-              label: "Localities", controller: localitiesController),
+            label: "Name",
+            controller: nameController,
+            keyboardType: TextInputType.name,
+          ),
           CustomTextField(
-              label: "Current Address", controller: addressController),
+              label: "Phone Number",
+              controller: phoneNoController,
+              keyboardType: TextInputType.phone),
           CustomTextField(
-              label: "Current Pincode", controller: pincodeController),
+              label: "Localities",
+              controller: localitiesController,
+              keyboardType: TextInputType.text),
           CustomTextField(
-              label: "Bank Account Number", controller: bankAccController),
-          CustomTextField(label: "IFSC", controller: ifscController),
+              label: "Current Address",
+              controller: addressController,
+              keyboardType: TextInputType.streetAddress),
+          CustomTextField(
+              label: "Current Pincode",
+              controller: pincodeController,
+              keyboardType: TextInputType.number),
+          CustomTextField(
+              label: "Bank Account Number",
+              controller: bankAccController,
+              keyboardType: TextInputType.number),
+          CustomTextField(
+              label: "IFSC",
+              controller: ifscController,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done),
         ],
       ),
       bottomNavigationBar: Padding(
@@ -47,23 +64,16 @@ class AddRiders extends ConsumerWidget {
           children: [
             CustomButton(label: "Next", null, navigateTo: () {
               Rider rider = Rider(
-                  uuid: const Uuid().v4(),
-                  name: nameController.text,
-                  phoneNumber: int.parse(phoneNoController.text),
-                  localities: [localitiesController.text],
-                  address: addressController.text,
-                  pinCode: int.parse(pincodeController.text),
-                  bankAccountNumber: int.parse(bankAccController.text),
-                  ifsc: ifscController.text,
-                  riderDocs: RiderDocs(
-                      aadharPath: '',
-                      panCardPath: '',
-                      dl: '',
-                      bankCheque: '',
-                      photo: ''));
-              ref.read(riderProvider.notifier).addRiderInfo(rider);
-
-              Navigator.pushNamed(context, '/uploadDocs');
+                uuid: const Uuid().v4(),
+                // name: nameController.text,
+                // phoneNumber: int.parse(phoneNoController.text),
+                // localities: [localitiesController.text],
+                // address: addressController.text,
+                // pinCode: int.parse(pincodeController.text),
+                // bankAccountNumber: int.parse(bankAccController.text),
+                // ifsc: ifscController.text,
+              );
+              Navigator.pushNamed(context, '/uploadDocs', arguments: rider);
             })
           ],
         ),
