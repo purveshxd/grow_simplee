@@ -17,10 +17,9 @@ class UploadDocuments extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Rider args = ModalRoute.of(context)!.settings.arguments as Rider;
-    // final riderData = ref.watch(riderProvider);
-    // final uuid = riderData.last.uuid;
+
     final ImagePicker picker = ImagePicker();
-    final isAdded = ref.watch(isDocAddedProvider);
+    final isAdded = ref.watch(docProvider);
     // View Image function
     void viewImage(String docName) {
       try {
@@ -117,16 +116,18 @@ class UploadDocuments extends ConsumerWidget {
         itemCount: Constants().docslabel.length,
         itemBuilder: (context, index) => DocumentUploadField(
             index: index,
-            isAdded: isAdded.elementAt(index),
+            isAdded:
+                ref.watch(isAdded.elementAt(index) as ProviderListenable<bool>),
             label: Constants().docslabel.elementAt(index),
             onPressedAdd: () {
               pickImage(index);
-              ref.read(isDocAddedProvider.notifier).state[index] = true;
-              print(ref.watch(isDocAddedProvider));
+              // ref.read(docProvider).elementAt(index).update((state) => true);
+              ref
+                  .read(isAdded.elementAt(index).notifier)
+                  .update((state) => true);
             },
-            onPressedView: () {
-              viewImage(Constants().docsName.elementAt(index));
-            }),
+            onPressedView: () =>
+                viewImage(Constants().docsName.elementAt(index))),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),

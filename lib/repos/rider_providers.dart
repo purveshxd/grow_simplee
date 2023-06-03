@@ -63,13 +63,19 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
 
 final riderProvider =
     StateNotifierProvider<RiderNotifier, List<Rider>>((ref) => RiderNotifier());
-final isDocAddedProvider = StateProvider((ref) {
-  List isAdded = [
-    false,
-    false,
-    false,
-    false,
-    false,
+final isAadharAdded = StateProvider((ref) => false);
+final isBankChequeAdded = StateProvider((ref) => false);
+final isDLAdded = StateProvider((ref) => false);
+final isPanCardAdded = StateProvider((ref) => false);
+final isPhotoAdded = StateProvider((ref) => false);
+
+final docProvider = Provider((ref) {
+  List<StateProvider> proWider = [
+    isAadharAdded,
+    isBankChequeAdded,
+    isDLAdded,
+    isPanCardAdded,
+    isPhotoAdded,
   ];
-  return isAdded;
+  return proWider;
 });
