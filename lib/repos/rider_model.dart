@@ -4,9 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
-part 'rider_model.g.dart';
-
 Rider riderFromJson(String str) => Rider.fromJson(json.decode(str));
 
 String riderToJson(Rider data) => json.encode(data.toJson());
@@ -20,6 +17,7 @@ class Rider {
   final int? pinCode;
   final int? bankAccountNumber;
   final String? ifsc;
+  final bool? isVerified;
   final RiderDocs? riderDocs;
 
   Rider({
@@ -31,6 +29,7 @@ class Rider {
     this.pinCode,
     this.bankAccountNumber,
     this.ifsc,
+    this.isVerified = false,
     this.riderDocs,
   });
 
@@ -43,6 +42,7 @@ class Rider {
     int? pinCode,
     int? bankAccountNumber,
     String? ifsc,
+    bool? isVerified,
     RiderDocs? riderDocs,
   }) =>
       Rider(
@@ -54,6 +54,7 @@ class Rider {
         pinCode: pinCode ?? this.pinCode,
         bankAccountNumber: bankAccountNumber ?? this.bankAccountNumber,
         ifsc: ifsc ?? this.ifsc,
+        isVerified: isVerified ?? this.isVerified,
         riderDocs: riderDocs ?? this.riderDocs,
       );
 
@@ -68,6 +69,7 @@ class Rider {
         pinCode: json["pinCode"],
         bankAccountNumber: json["bankAccountNumber"],
         ifsc: json["ifsc"],
+        isVerified: json["isVerified"],
         riderDocs: json["riderDocs"] == null
             ? null
             : RiderDocs.fromJson(json["riderDocs"]),
@@ -84,6 +86,7 @@ class Rider {
         "pinCode": pinCode,
         "bankAccountNumber": bankAccountNumber,
         "ifsc": ifsc,
+        "isVerified": isVerified,
         "riderDocs": riderDocs?.toJson(),
       };
 }
@@ -134,24 +137,3 @@ class RiderDocs {
         "photo": photo,
       };
 }
-
-
-
-
-// Rider(
-//             name: "Purvesh Dongarwar",
-//             phoneNumber: 9146477923,
-//             localities: ["Sadar", "Burdi", "Lokmanya Nagar"],
-//             address:
-//                 "CRPF Gate No.3, Hingna Road, Digdoh Hills Nagpur ( Maharashtra)",
-//             pinCode: 440010,
-//             bankAccountNumber: 39238765008,
-//             ifsc: "SBIN0001169",
-//             riderDocs: RiderDocs(
-//               aadharPath: '',
-//               bankCheque: '',
-//               dl: '',
-//               panCardPath: '',
-//               photo: '',
-//             ),
-//           ),

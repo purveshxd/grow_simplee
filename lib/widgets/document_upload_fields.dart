@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grow_simplee/constants/constants.dart';
-import 'package:grow_simplee/repos/rider_providers.dart';
 
 class DocumentUploadField extends StatelessWidget {
   final String label;

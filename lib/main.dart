@@ -17,9 +17,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: Constants().routes,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: ThemeData(useMaterial3: true)
+          .copyWith(primaryColor: Colors.blue.shade100),
       // home: const RiderLists(),
     );
   }

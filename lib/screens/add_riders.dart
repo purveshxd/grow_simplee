@@ -65,13 +65,13 @@ class AddRiders extends StatelessWidget {
             CustomButton(label: "Next", null, navigateTo: () {
               Rider rider = Rider(
                 uuid: const Uuid().v4(),
-                // name: nameController.text,
-                // phoneNumber: int.parse(phoneNoController.text),
-                // localities: [localitiesController.text],
-                // address: addressController.text,
-                // pinCode: int.parse(pincodeController.text),
-                // bankAccountNumber: int.parse(bankAccController.text),
-                // ifsc: ifscController.text,
+                name: nameController.text,
+                phoneNumber: int.parse(phoneNoController.text),
+                localities: [localitiesController.text],
+                address: addressController.text,
+                pinCode: int.parse(pincodeController.text),
+                bankAccountNumber: int.parse(bankAccController.text),
+                ifsc: ifscController.text,
               );
               Navigator.pushNamed(context, '/uploadDocs', arguments: rider);
             })

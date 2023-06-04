@@ -4,8 +4,10 @@
     "localities":["lokmanya nagar","Sadar","Nagpur"],
     "address":"zrhsdgnsfgndsfabbdisfksf  lsfbnlzb",
     "pinCode":440010,
+    "uuid":"110ec58a-a0f2-4ac4-8393-c866d813b8d1",
     "bankAccountNumber":4643138431346464,
     "ifsc":"zdhndgnxdnzdzh",
+    "status":"",
     "riderDocs":{
         "aadharPath":"",
         "panCardPath":"",

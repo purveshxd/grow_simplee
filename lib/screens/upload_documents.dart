@@ -42,6 +42,7 @@ class UploadDocuments extends ConsumerWidget {
 // pick image function
     void pickImage(int index) {
       showModalBottomSheet(
+          // backgroundColor: Colors.amber,
           context: context,
           builder: (context) => ListView(
                 // mainAxisSize: MainAxisSize.min,
@@ -121,7 +122,7 @@ class UploadDocuments extends ConsumerWidget {
             label: Constants().docslabel.elementAt(index),
             onPressedAdd: () {
               pickImage(index);
-              // ref.read(docProvider).elementAt(index).update((state) => true);
+
               ref
                   .read(isAdded.elementAt(index).notifier)
                   .update((state) => true);
@@ -145,10 +146,17 @@ class UploadDocuments extends ConsumerWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
             CustomButton(label: "Save", null, navigateTo: () {
-              // TODO Save Rider
-
-              // Saving rider info from previous page
-              ref.read(riderProvider.notifier).addRiderInfo(args);
+              // Saving rider info from previous page and also the rider documents
+              ref.read(riderProvider.notifier).addRiderInfo(
+                    args.copyWith(
+                      riderDocs: RiderDocs(
+                          aadharPath: Constants().docPath['aadharPath'],
+                          bankCheque: Constants().docPath['bankCheque'],
+                          dl: Constants().docPath['dl'],
+                          panCardPath: Constants().docPath['panCardPath'],
+                          photo: Constants().docPath['photo']),
+                    ),
+                  );
 
               // Navigation
               Navigator.of(context).popUntil(
@@ -162,55 +170,53 @@ class UploadDocuments extends ConsumerWidget {
   }
 }
 
-
 //  ref.read(riderProvider.notifier).addRiderDocs(
 //                             riderData.last.uuid!,
 //                             RiderDocs(aadharPath: imageTemp.path));
 
-
-      //   children: [
-      //     DocumentUploadField(
-      //       onPressedAdd: () => pickImage(
-      //         RiderDocs(
-      //           aadharPath: Constants().docsName.elementAt(0),
-      //         ),
-      //       ),
-      //       label: Constants().docslabel.elementAt(0),
-      //       onPressedView: () => viewImage(
-      //         Constants().docsName.elementAt(0),
-      //       ),
-      //     ),
-      //     DocumentUploadField(
-      //       onPressedAdd: () => pickImage(
-      //           RiderDocs(bankCheque: Constants().docsName.elementAt(1))),
-      //       label: Constants().docslabel.elementAt(1),
-      //       onPressedView: () => viewImage(
-      //         Constants().docsName.elementAt(1),
-      //       ),
-      //     ),
-      //     DocumentUploadField(
-      //       onPressedAdd: () =>
-      //           pickImage(RiderDocs(dl: Constants().docsName.elementAt(2))),
-      //       label: Constants().docslabel.elementAt(2),
-      //       onPressedView: () => viewImage(
-      //         Constants().docsName.elementAt(2),
-      //       ),
-      //     ),
-      //     DocumentUploadField(
-      //       onPressedAdd: () => pickImage(
-      //           RiderDocs(panCardPath: Constants().docsName.elementAt(3))),
-      //       label: Constants().docslabel.elementAt(3),
-      //       onPressedView: () => viewImage(
-      //         Constants().docsName.elementAt(3),
-      //       ),
-      //     ),
-      //     DocumentUploadField(
-      //       onPressedAdd: () =>
-      //           pickImage(RiderDocs(photo: Constants().docsName.elementAt(4))),
-      //       label: Constants().docslabel.elementAt(4),
-      //       onPressedView: () => viewImage(
-      //         Constants().docsName.elementAt(4),
-      //       ),
-      //     ),
-      //   ],
-      // ),
+//   children: [
+//     DocumentUploadField(
+//       onPressedAdd: () => pickImage(
+//         RiderDocs(
+//           aadharPath: Constants().docsName.elementAt(0),
+//         ),
+//       ),
+//       label: Constants().docslabel.elementAt(0),
+//       onPressedView: () => viewImage(
+//         Constants().docsName.elementAt(0),
+//       ),
+//     ),
+//     DocumentUploadField(
+//       onPressedAdd: () => pickImage(
+//           RiderDocs(bankCheque: Constants().docsName.elementAt(1))),
+//       label: Constants().docslabel.elementAt(1),
+//       onPressedView: () => viewImage(
+//         Constants().docsName.elementAt(1),
+//       ),
+//     ),
+//     DocumentUploadField(
+//       onPressedAdd: () =>
+//           pickImage(RiderDocs(dl: Constants().docsName.elementAt(2))),
+//       label: Constants().docslabel.elementAt(2),
+//       onPressedView: () => viewImage(
+//         Constants().docsName.elementAt(2),
+//       ),
+//     ),
+//     DocumentUploadField(
+//       onPressedAdd: () => pickImage(
+//           RiderDocs(panCardPath: Constants().docsName.elementAt(3))),
+//       label: Constants().docslabel.elementAt(3),
+//       onPressedView: () => viewImage(
+//         Constants().docsName.elementAt(3),
+//       ),
+//     ),
+//     DocumentUploadField(
+//       onPressedAdd: () =>
+//           pickImage(RiderDocs(photo: Constants().docsName.elementAt(4))),
+//       label: Constants().docslabel.elementAt(4),
+//       onPressedView: () => viewImage(
+//         Constants().docsName.elementAt(4),
+//       ),
+//     ),
+//   ],
+// ),

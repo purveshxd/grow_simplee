@@ -28,6 +28,8 @@ class Constants {
     'panCardPath': "",
     'photo': ""
   };
+
+  get docPath => _docNameMap;
   String getdocNameMap(String docName) {
     String location = _docNameMap[docName];
     return location;

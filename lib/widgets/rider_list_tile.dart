@@ -1,17 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grow_simplee/repos/rider_model.dart';
 
-
-class RiderListTile extends StatelessWidget {
+class RiderListTile extends ConsumerWidget {
   final Rider rider;
+
   const RiderListTile({
     Key? key,
     required this.rider,
+    // required this.index,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: InkWell(

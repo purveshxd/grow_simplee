@@ -15,6 +15,7 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
             pinCode: 440010,
             bankAccountNumber: 39238765008,
             ifsc: "SBIN0001169",
+            isVerified: true,
             riderDocs: RiderDocs(
               aadharPath: '',
               bankCheque: '',
@@ -33,6 +34,7 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
             pinCode: 440010,
             bankAccountNumber: 39238765008,
             ifsc: "SBIN0001169",
+            // isVerified: true,
             riderDocs: RiderDocs(
               aadharPath: 'android/path/work',
               bankCheque: 'android/path/work',
@@ -40,10 +42,36 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
               panCardPath: 'android/path/work',
               photo: 'android/path/work',
             ),
-          )
+          ),
+          Rider(
+            uuid: const Uuid().v4(),
+            name: "purveshd",
+            phoneNumber: 9146477923,
+            localities: ["Sadar", "Burdi", "Lokmanya Nagar"],
+            address:
+                "CRPF Gate No.3, Hingna Road, Digdoh Hills Nagpur ( Maharashtra)",
+            pinCode: 440010,
+            bankAccountNumber: 39238765008,
+            ifsc: "SBIN0001169",
+            // isVerified: false,
+            riderDocs: RiderDocs(
+              aadharPath: '',
+              bankCheque: '',
+              dl: '',
+              panCardPath: '',
+              photo: '',
+            ),
+          ),
         ]);
   void addRiderInfo(Rider rider) {
     state = [...state, rider];
+  }
+
+  void verifyRider(String uuid) {
+    state = [
+      for (final rider in state)
+        if (rider.uuid == uuid) rider.copyWith(isVerified: true) else rider,
+    ];
   }
 
   void addRiderDocs(String uuid, RiderDocs riderDocs) {
@@ -51,12 +79,15 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
       for (final rider in state)
         if (rider.uuid == uuid)
           rider.copyWith(
-              riderDocs: RiderDocs(
-                  aadharPath: riderDocs.aadharPath,
-                  bankCheque: riderDocs.bankCheque,
-                  dl: riderDocs.dl,
-                  panCardPath: riderDocs.panCardPath,
-                  photo: riderDocs.photo))
+            riderDocs: RiderDocs(
+                aadharPath: riderDocs.aadharPath,
+                bankCheque: riderDocs.bankCheque,
+                dl: riderDocs.dl,
+                panCardPath: riderDocs.panCardPath,
+                photo: riderDocs.photo),
+          )
+        else
+          rider
     ];
   }
 }
@@ -79,3 +110,16 @@ final docProvider = Provider((ref) {
   ];
   return proWider;
 });
+
+final rejectedRiderProvider = Provider<List<Rider>>((ref) {
+  final riders = ref.watch(riderProvider);
+  return riders.where((rider) => rider.isVerified == false).toList();
+});
+final verifiedRiderProvider = Provider<List<Rider>>((ref) {
+  return ref
+      .watch(riderProvider)
+      .where((rider) => rider.isVerified == true)
+      .toList();
+});
+
+final currentPageProvider = StateProvider((ref) => 0);
