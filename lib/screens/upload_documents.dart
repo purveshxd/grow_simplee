@@ -42,10 +42,9 @@ class UploadDocuments extends ConsumerWidget {
 // pick image function
     void pickImage(int index) {
       showModalBottomSheet(
-          // backgroundColor: Colors.amber,
           context: context,
-          builder: (context) => ListView(
-                // mainAxisSize: MainAxisSize.min,
+          builder: (context) => Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
                     title: const Text("Camera"),
@@ -60,9 +59,13 @@ class UploadDocuments extends ConsumerWidget {
 
                         Constants().docNameMap(
                             Constants().docsName.elementAt(index), tempImage);
+                        ref
+                            .read(isAdded.elementAt(index).notifier)
+                            .update((state) => true);
                       } on PlatformException catch (e) {
                         debugPrint('Failed to pick image: $e');
                       }
+                      Navigator.pop(context);
                     },
                   ),
                   ListTile(
@@ -79,35 +82,19 @@ class UploadDocuments extends ConsumerWidget {
 
                         Constants().docNameMap(
                             Constants().docsName.elementAt(index), tempImage);
-
-                        // var _newVal = ref
-                        //     .watch(isDocAddedProvider.notifier)
-                        //     .state[index] = true;
-                        // print(_newVal);
-                        // print(ref.watch(isDocAddedProvider));
-
-                        // ref.read(isDocAddedProvider.notifier).update(
-                        //   (state) {
-                        //     state[index] = true;
-                        //     return state;
-                        //   },
-                        // );
                         print(tempImage);
+                        ref
+                            .read(isAdded.elementAt(index).notifier)
+                            .update((state) => true);
                       } on PlatformException catch (e) {
                         debugPrint('Failed to pick image: $e');
                       }
+                      Navigator.pop(context);
                     },
                   ),
                 ],
               ));
     }
-
-    // bool isUploaded(uuid, int index) {
-    //  final docName = Constants().docsName.elementAt(index).characters;
-    //   // if (riderData.elementAt(index).riderDocs!.) {
-    //   } else {}
-    //   return true;
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -120,13 +107,7 @@ class UploadDocuments extends ConsumerWidget {
             isAdded:
                 ref.watch(isAdded.elementAt(index) as ProviderListenable<bool>),
             label: Constants().docslabel.elementAt(index),
-            onPressedAdd: () {
-              pickImage(index);
-
-              ref
-                  .read(isAdded.elementAt(index).notifier)
-                  .update((state) => true);
-            },
+            onPressedAdd: () => pickImage(index),
             onPressedView: () =>
                 viewImage(Constants().docsName.elementAt(index))),
       ),
@@ -147,6 +128,8 @@ class UploadDocuments extends ConsumerWidget {
             ),
             CustomButton(label: "Save", null, navigateTo: () {
               // Saving rider info from previous page and also the rider documents
+              isAdded.where((element) => false).toList();
+
               ref.read(riderProvider.notifier).addRiderInfo(
                     args.copyWith(
                       riderDocs: RiderDocs(

@@ -4,28 +4,35 @@ import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final String label;
+  final int? maxLength;
+  final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final TextEditingController controller;
   final TextInputAction? textInputAction;
   const CustomTextField({
-    super.key,
+    Key? key,
     required this.label,
-    required this.controller,
-    this.keyboardType,
+    this.maxLength,
+    this.validator,
     this.inputFormatters,
+    this.keyboardType,
+    required this.controller,
     this.textInputAction = TextInputAction.next,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-      child: TextField(
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
+        maxLength: maxLength,
         controller: controller,
-        textInputAction: textInputAction,
+        maxLengthEnforcement: MaxLengthEnforcement.enforced,
         decoration: InputDecoration(
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(

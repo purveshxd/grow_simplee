@@ -10,15 +10,15 @@ class RiderLists extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Rider> riders = ref.watch(riderProvider);
-    // RiderFilter filter = ref.watch(riderFilterProvider);
-    // List<Rider> acceptedRider = ref.watch(verifiedRiderProvider);
+
     List<Rider> rejectedRider = ref.watch(rejectedRiderProvider);
+    List<Rider> verifiedRider = ref.watch(verifiedRiderProvider);
     int currentPage = ref.watch(currentPageProvider);
     List<Widget> bodyList = [
       ListView.builder(
-        itemCount: riders.length,
+        itemCount: verifiedRider.length,
         itemBuilder: (context, index) =>
-            RiderListTile(rider: riders.elementAt(index)),
+            RiderListTile(rider: verifiedRider.elementAt(index)),
       ),
       ListView.builder(
         itemCount: rejectedRider.length,
@@ -26,7 +26,7 @@ class RiderLists extends ConsumerWidget {
             RiderListTile(rider: rejectedRider.elementAt(index)),
       ),
     ];
-    List pageName = ["Riders", "Unverified"];
+    List pageName = ["Verified", "Unverified"];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,8 +44,10 @@ class RiderLists extends ConsumerWidget {
         backgroundColor: Colors.blue.shade50,
         selectedIndex: currentPage,
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.check), label: 'Riders'),
-          NavigationDestination(icon: Icon(Icons.close), label: 'Unverified')
+          NavigationDestination(
+              icon: Icon(Icons.check), label: 'Verified Riders'),
+          NavigationDestination(
+              icon: Icon(Icons.close), label: 'Unverified Riders')
         ],
         onDestinationSelected: (value) {
           ref.read(currentPageProvider.notifier).update((state) => value);

@@ -3,6 +3,7 @@ import 'package:grow_simplee/repos/rider_model.dart';
 import 'package:uuid/uuid.dart';
 
 class RiderNotifier extends StateNotifier<List<Rider>> {
+  // added some default values
   RiderNotifier()
       : super([
           Rider(
@@ -34,7 +35,7 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
             pinCode: 440010,
             bankAccountNumber: 39238765008,
             ifsc: "SBIN0001169",
-            // isVerified: true,
+            isVerified: true,
             riderDocs: RiderDocs(
               aadharPath: 'android/path/work',
               bankCheque: 'android/path/work',
@@ -44,6 +45,7 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
             ),
           ),
           Rider(
+            isVerified: false,
             uuid: const Uuid().v4(),
             name: "purveshd",
             phoneNumber: 9146477923,
@@ -53,7 +55,6 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
             pinCode: 440010,
             bankAccountNumber: 39238765008,
             ifsc: "SBIN0001169",
-            // isVerified: false,
             riderDocs: RiderDocs(
               aadharPath: '',
               bankCheque: '',
@@ -71,6 +72,13 @@ class RiderNotifier extends StateNotifier<List<Rider>> {
     state = [
       for (final rider in state)
         if (rider.uuid == uuid) rider.copyWith(isVerified: true) else rider,
+    ];
+  }
+
+  void rejectRider(String uuid) {
+    state = [
+      for (final rider in state)
+        if (rider.uuid == uuid) rider.copyWith(isVerified: false) else rider,
     ];
   }
 
@@ -123,3 +131,18 @@ final verifiedRiderProvider = Provider<List<Rider>>((ref) {
 });
 
 final currentPageProvider = StateProvider((ref) => 0);
+
+final localitiesProvider = Provider<List<String>>((ref) => [
+      "Mumbai",
+      "Delhi",
+      "Nagpur",
+      "Jaipur",
+      "Jodhpur",
+      "Hyderabad",
+      "Chennai",
+      "Bangalore",
+      "Kolkata",
+      "Pune",
+      "Lucknow",
+    ]);
+final selectedLocalitiesProvider = StateProvider<List<String>>((ref) => []);

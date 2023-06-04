@@ -17,7 +17,7 @@ class Rider {
   final int? pinCode;
   final int? bankAccountNumber;
   final String? ifsc;
-  final bool? isVerified;
+  final bool isVerified;
   final RiderDocs? riderDocs;
 
   Rider({
@@ -29,7 +29,7 @@ class Rider {
     this.pinCode,
     this.bankAccountNumber,
     this.ifsc,
-    this.isVerified = false,
+    required this.isVerified,
     this.riderDocs,
   });
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grow_simplee/constants/constants.dart';
 import 'package:grow_simplee/repos/rider_model.dart';
+import 'package:grow_simplee/repos/rider_providers.dart';
 import 'package:grow_simplee/widgets/custom_button.dart';
 import 'package:grow_simplee/widgets/info_display_widget.dart';
 
@@ -15,13 +16,9 @@ class RiderProfile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // CarouselController carouselController = CarouselController();
-    // final riderData = ref.watch(riderProvider);
-    // riderData[index].riderDocs!.docName;
-    // int noOfRiders = riderData.length;
     Rider rider = ModalRoute.of(context)!.settings.arguments as Rider;
     List imgLocation = [];
-    // final docName = Constants().docsName.elementAt(noOfRiders);
+
     rider.riderDocs?.toJson().forEach((key, value) {
       imgLocation.add(value);
     });
@@ -44,10 +41,8 @@ class RiderProfile extends ConsumerWidget {
                 itemCount: Constants().docsName.length,
                 itemBuilder: (context, index, realIndex) {
                   return Image.file(
-                    // width: double.infinity,
-                    // height: MediaQuery.of(context).size.height / 2,
-                    // fit: BoxFit.fitHeight,
-                    // width: MediaQuery.of(context).size.shortestSide / 1.2,
+                    errorBuilder: (context, error, stackTrace) => const Center(
+                        child: Text("No image found for this document")),
                     File(imgLocation.elementAt(index)),
                   );
                 },
@@ -55,7 +50,6 @@ class RiderProfile extends ConsumerWidget {
                     viewportFraction: 1,
                     enableInfiniteScroll: false,
                     aspectRatio: 4 / 5,
-                    // height: MediaQuery.of(context).size.height / 2.6,
                     scrollPhysics: const BouncingScrollPhysics())),
           ),
           InfoDisplay(label: 'Name', info: rider.name.toString()),
@@ -82,16 +76,22 @@ class RiderProfile extends ConsumerWidget {
                 height: 50,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                color: Colors.red.shade100,
+                color: Colors.red.shade300,
                 child: const Text("Reject"),
-                onPressed: () =>
-                    Navigator.of(context).popUntil(ModalRoute.withName('/'))),
-            CustomButton(
-              null,
-              label: "Accept",
-              navigateTo: () =>
-                  Navigator.of(context).popUntil(ModalRoute.withName('/')),
-            ),
+                onPressed: () {
+                  ref
+                      .read(riderProvider.notifier)
+                      .rejectRider(rider.uuid.toString());
+                  Navigator.of(context).popUntil(
+                    ModalRoute.withName('/'),
+                  );
+                }),
+            CustomButton(null, label: "Accept", navigateTo: () {
+              ref
+                  .read(riderProvider.notifier)
+                  .verifyRider(rider.uuid.toString());
+              Navigator.of(context).popUntil(ModalRoute.withName('/'));
+            }),
           ],
         ),
       ),
