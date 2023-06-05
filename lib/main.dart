@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grow_simplee/constants/constants.dart';
 
 void main() async {
-  // await Hive.initFlutter();
-  // Hive.registerAdapter(RiderAdapter());
-  // await Hive.openBox<Rider>('riderInfo');
+  
   runApp(const ProviderScope(child: MyApp()));
 }
 

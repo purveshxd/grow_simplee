@@ -4,7 +4,6 @@ import 'package:grow_simplee/repos/rider_model.dart';
 import 'package:grow_simplee/repos/rider_providers.dart';
 import 'package:grow_simplee/widgets/custom_button.dart';
 import 'package:grow_simplee/widgets/custom_text_fields.dart';
-import 'package:grow_simplee/widgets/multi_select_dropdown.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:uuid/uuid.dart';
 
