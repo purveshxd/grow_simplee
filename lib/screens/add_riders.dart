@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:grow_simplee/constants/constants.dart';
 import 'package:grow_simplee/repos/rider_model.dart';
 import 'package:grow_simplee/repos/rider_providers.dart';
 import 'package:grow_simplee/widgets/custom_button.dart';
 import 'package:grow_simplee/widgets/custom_text_fields.dart';
 import 'package:grow_simplee/widgets/multi_select_dropdown.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 class AddRiders extends ConsumerWidget {
@@ -15,34 +15,44 @@ class AddRiders extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final localities = ref.watch(localitiesProvider);
     final selectedItems = ref.watch(selectedLocalitiesProvider);
-    void _itemChange(String itemValue, bool isSelected) {
-      if (isSelected) {
-        ref.read(selectedLocalitiesProvider.notifier).update((state) {
-          return state = [...state, itemValue];
-        });
-        // selectedItems.add(itemValue);
-      } else {
-        ref.read(selectedLocalitiesProvider.notifier).update((state) {
-          return state = [
-            for (final place in state)
-              if (place == itemValue)
-                state.remove(itemValue).toString()
-              else
-                place
-          ];
-        });
-        selectedItems.remove(itemValue);
-      }
-    }
-
+    final selectedCities = selectedItems
+        .map((e) => localities[e])
+        .toString()
+        .replaceAll(RegExp(r'\(|\)|-|\.|\s'), '');
     final formKey = GlobalKey<FormState>();
     TextEditingController nameController = TextEditingController();
     TextEditingController phoneNoController = TextEditingController();
-    TextEditingController localitiesController = TextEditingController();
+    TextEditingController localitiesController =
+        TextEditingController(text: selectedCities);
     TextEditingController addressController = TextEditingController();
     TextEditingController pincodeController = TextEditingController();
     TextEditingController bankAccController = TextEditingController();
     TextEditingController ifscController = TextEditingController();
+
+    final _items = localities
+        .map((cities) => MultiSelectItem(localities.indexOf(cities), cities))
+        .toList();
+
+    void showMultiSelect() async {
+      await showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (ctx) {
+          return MultiSelectBottomSheet(
+            selectedColor: Colors.blue.shade400,
+            searchable: true,
+            items: _items,
+            initialValue: const [],
+            onConfirm: (values) {
+              ref.read(selectedLocalitiesProvider.notifier).update((state) {
+                return List.from(state)..addAll(values);
+              });
+            },
+            maxChildSize: 0.8,
+          );
+        },
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -79,44 +89,10 @@ class AddRiders extends ConsumerWidget {
                 }
               },
             ),
-            InkWell(
-              onTap: () => showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Select Topics'),
-                  content: SingleChildScrollView(
-                    child: ListBody(
-                      children: localities
-                          .map((item) => CheckboxListTile(
-                                value: selectedItems.contains(item),
-                                title: Text(item),
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                                onChanged: (isChecked) =>
-                                    _itemChange(item, isChecked!),
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () => Navigator.pop(context, selectedItems),
-                      child: const Text('Submit'),
-                    ),
-                  ],
-                ),
-              ),
-              child: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                  child: const Text("Select localities")),
-            ),
             CustomTextField(
-              label: "Localities",
+              readOnly: true,
+              onTap: showMultiSelect,
+              label: "Select Localities",
               controller: localitiesController,
               keyboardType: TextInputType.text,
               validator: (value) {
@@ -190,13 +166,14 @@ class AddRiders extends ConsumerWidget {
           // mainAxisSize: MainAxisSize.max,
           children: [
             CustomButton(label: "Next", null, navigateTo: () {
+              print(selectedItems.map((e) => localities[e]).toList());
               if (formKey.currentState!.validate()) {
                 Rider rider = Rider(
                   isVerified: false,
                   uuid: const Uuid().v4(),
                   name: nameController.text,
                   phoneNumber: int.parse(phoneNoController.text),
-                  localities: [localitiesController.text],
+                  localities: selectedItems.map((e) => localities[e]).toList(),
                   address: addressController.text,
                   pinCode: int.parse(pincodeController.text),
                   bankAccountNumber: int.parse(bankAccController.text),

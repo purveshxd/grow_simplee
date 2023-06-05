@@ -9,8 +9,6 @@ class RiderLists extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Rider> riders = ref.watch(riderProvider);
-
     List<Rider> rejectedRider = ref.watch(rejectedRiderProvider);
     List<Rider> verifiedRider = ref.watch(verifiedRiderProvider);
     int currentPage = ref.watch(currentPageProvider);
@@ -26,7 +24,7 @@ class RiderLists extends ConsumerWidget {
             RiderListTile(rider: rejectedRider.elementAt(index)),
       ),
     ];
-    List pageName = ["Verified", "Unverified"];
+    List pageName = ["Riders", "Unverified Riders"];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

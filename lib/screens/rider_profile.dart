@@ -61,7 +61,11 @@ class RiderProfile extends ConsumerWidget {
             label: 'Address',
             info: rider.address.toString(),
           ),
-          InfoDisplay(label: 'Localities', info: rider.localities.toString()),
+          InfoDisplay(
+              label: 'Localities',
+              info: rider.localities
+                  .toString()
+                  .replaceAll(RegExp(r'\[|\]|-|\.|\s'), '')),
         ],
       ),
       bottomNavigationBar: Padding(

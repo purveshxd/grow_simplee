@@ -145,4 +145,7 @@ final localitiesProvider = Provider<List<String>>((ref) => [
       "Pune",
       "Lucknow",
     ]);
-final selectedLocalitiesProvider = StateProvider<List<String>>((ref) => []);
+final selectedLocalitiesProvider = StateProvider<List>((ref) {
+  List<String> localities = [];
+  return localities;
+});

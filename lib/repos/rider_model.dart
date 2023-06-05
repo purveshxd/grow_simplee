@@ -12,7 +12,7 @@ class Rider {
   final String? uuid;
   final String? name;
   final int? phoneNumber;
-  final List<String>? localities;
+  final List? localities;
   final String? address;
   final int? pinCode;
   final int? bankAccountNumber;
@@ -37,7 +37,7 @@ class Rider {
     String? uuid,
     String? name,
     int? phoneNumber,
-    List<String>? localities,
+    List? localities,
     String? address,
     int? pinCode,
     int? bankAccountNumber,
@@ -64,7 +64,7 @@ class Rider {
         phoneNumber: json["phoneNumber"],
         localities: json["localities"] == null
             ? []
-            : List<String>.from(json["localities"]!.map((x) => x)),
+            : List.from(json["localities"]!.map((x) => x)),
         address: json["address"],
         pinCode: json["pinCode"],
         bankAccountNumber: json["bankAccountNumber"],
